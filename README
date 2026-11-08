@@ -7,3 +7,10 @@ pacman -S gtk4 gtksourceview5
 
 Untuk compile projek
 g++ -Wall -Wextra main.cpp -o teditor  $(pkg-config --cflags --libs gtk4 gtksourceview-5)
+
+
+rn: rename file
+project: membuat projek baru
+nf: membuat file baru
+esc: keluar dari command 
+dir: membuat folder baru
