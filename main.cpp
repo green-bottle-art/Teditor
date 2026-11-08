@@ -1218,16 +1218,16 @@ static void run_command(EditorApp *app, const char *raw) {
         g_strfreev(argv);
         return;
         // membuat file baru
-    } else if (!g_strcmp0(name, "nf") {
+    } else if (!g_strcmp0(name, "nf")) {
         ok = cmd_new(app, argc, argv, &r, &err);
         // Membuat folder baru
-    } else if (!g_strcmp0(name, "dir") {
+    } else if (!g_strcmp0(name, "dir")) {
         ok = cmd_mkdir(app, argc, argv, &r, &err);
         // Rename file/folder
     } else if (!g_strcmp0(name, "rn")) {
         ok = cmd_rename(app, argc, argv, &r, &err);
         // membuka folder projek
-    } else if (!g_strcmp0(name, "project") {
+    } else if (!g_strcmp0(name, "project")) {
         ok = cmd_project(app, argc, argv, &r, &err);
     } else {
         g_set_error(&err, G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT,
