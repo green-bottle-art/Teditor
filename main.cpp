@@ -160,7 +160,7 @@ static void on_cursor_moved(GObject *, GParamSpec *, gpointer user_data) {
 // ---------------------------------------------------------------------------
 
 static const char *COMMAND_HINT =
-    "new <file>  |  mkdir <folder>  |  rename [lama] <baru>  |  project <folder>  |  Esc: kembali";
+    "nf <file>  |  dir <folder>  |  rn [lama] <baru>  |  project <folder>  |  Esc: kembali";
 
 static void set_status_message(EditorApp *app, const char *text) {
     gtk_label_set_text(GTK_LABEL(app->status_msg), text ? text : "");
