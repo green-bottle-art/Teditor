@@ -14,3 +14,19 @@ project: membuat projek baru
 nf: membuat file baru
 esc: keluar dari command 
 dir: membuat folder baru
+
+
+************ TODO ********************************8
+bagian bahasa dibuat modular, sehingga bisa menkonfigurasi setiap bahasa (syntax hightlight, linter, atau LSP jika perlu)
+mengganti menggunakan cmake
+apakah mau ditabah buit in terminal atau tidak saya belum tahu T_T
+workfllow saya menggunakan i3 dan membuka jendela baru
+
+
+
+Penambahan command/shortcut untuk mempercepat penggunaan
+menadikan cross platform-- kalau bisa T_T T_T T_T T_T
+
+
+
+
