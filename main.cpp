@@ -1038,7 +1038,7 @@ static bool usage_error(GError **err, const char *text) {
 
 // new <file>
 static bool cmd_new(EditorApp *app, int argc, char **argv, CmdResult *r, GError **err) {
-    if (argc != 2) return usage_error(err, "Pemakaian: new <file>");
+    if (argc != 2) return usage_error(err, "Pemakaian: nf <file>");
 
     GFile *file = resolve_path(app, argv[1]);
 
@@ -1076,7 +1076,7 @@ static bool cmd_new(EditorApp *app, int argc, char **argv, CmdResult *r, GError 
 
 // mkdir <folder>
 static bool cmd_mkdir(EditorApp *app, int argc, char **argv, CmdResult *r, GError **err) {
-    if (argc != 2) return usage_error(err, "Pemakaian: mkdir <folder>");
+    if (argc != 2) return usage_error(err, "Pemakaian: dir <folder>");
 
     GFile *dir = resolve_path(app, argv[1]);
     if (!g_file_make_directory_with_parents(dir, nullptr, err)) {
@@ -1092,7 +1092,7 @@ static bool cmd_mkdir(EditorApp *app, int argc, char **argv, CmdResult *r, GErro
 
 // rename <lama> <baru>   atau   rename <baru>  (file yang sedang dibuka)
 static bool cmd_rename(EditorApp *app, int argc, char **argv, CmdResult *r, GError **err) {
-    if (argc != 2 && argc != 3) return usage_error(err, "Pemakaian: rename [lama] <baru>");
+    if (argc != 2 && argc != 3) return usage_error(err, "Pemakaian: rn [lama] <baru>");
 
     GFile *old_f = nullptr;
     GFile *new_f = nullptr;
@@ -1102,7 +1102,7 @@ static bool cmd_rename(EditorApp *app, int argc, char **argv, CmdResult *r, GErr
         new_f = resolve_path(app, argv[2]);
     } else {
         GFile *cur = gtk_source_file_get_location(app->source_file);
-        if (!cur) return usage_error(err, "Belum ada file yang terbuka. Pemakaian: rename <lama> <baru>");
+        if (!cur) return usage_error(err, "Belum ada file yang terbuka. Pemakaian: rn <lama> <baru>");
         old_f = (GFile *)g_object_ref(cur);
         if (strchr(argv[1], '/') || argv[1][0] == '~') {
             new_f = resolve_path(app, argv[1]);
@@ -1209,17 +1209,25 @@ static void run_command(EditorApp *app, const char *raw) {
     CmdResult r = {};
     bool ok = false;
 
+// #############################################################################
+//                                  Command 
+// ##############################################################################
+    // bisa menambahkan command baru tetapi buat fungsinya terlebih dahuli
     if (!g_strcmp0(name, "help") || !g_strcmp0(name, "?")) {
         set_command_message(app, COMMAND_HINT, false);
         g_strfreev(argv);
         return;
-    } else if (!g_strcmp0(name, "new") || !g_strcmp0(name, "touch") {
+        // membuat file baru
+    } else if (!g_strcmp0(name, "nf") {
         ok = cmd_new(app, argc, argv, &r, &err);
-    } else if (!g_strcmp0(name, "mkdir") || !g_strcmp0(name, "folder")) {
+        // Membuat folder baru
+    } else if (!g_strcmp0(name, "dir") {
         ok = cmd_mkdir(app, argc, argv, &r, &err);
-    } else if (!g_strcmp0(name, "rename") || !g_strcmp0(name, "mv") || !g_strcmp0(name, "rn")) {
+        // Rename file/folder
+    } else if (!g_strcmp0(name, "rn")) {
         ok = cmd_rename(app, argc, argv, &r, &err);
-    } else if (!g_strcmp0(name, "project") || !g_strcmp0(name, "cd")) {
+        // membuka folder projek
+    } else if (!g_strcmp0(name, "project") {
         ok = cmd_project(app, argc, argv, &r, &err);
     } else {
         g_set_error(&err, G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT,
@@ -1277,7 +1285,7 @@ static GtkWidget *build_command_bar(EditorApp *app) {
 
     app->command_entry = gtk_entry_new();
     gtk_widget_set_hexpand(app->command_entry, TRUE);
-    gtk_entry_set_placeholder_text(GTK_ENTRY(app->command_entry), "new | mkdir | rename ...");
+    gtk_entry_set_placeholder_text(GTK_ENTRY(app->command_entry), "nf | dir | rn ...");
     g_signal_connect(app->command_entry, "activate", G_CALLBACK(on_command_activate), app);
 
     gtk_box_append(GTK_BOX(row), prompt);
@@ -1362,6 +1370,11 @@ static void on_activate(GApplication *gapp, gpointer user_data) {
     gtk_application_window_set_show_menubar(GTK_APPLICATION_WINDOW(app->window), FALSE);
     gtk_window_set_default_size(GTK_WINDOW(app->window), 1000, 650);
 
+
+
+
+ // #########################################################################################################################
+    // Shortcut
     // Aksi + shortcut (tanpa menu bar). New file / folder / rename -> mode command.
     add_action(app, "open", G_CALLBACK(on_open_file), "<Control>o");
     add_action(app, "open-project", G_CALLBACK(on_open_project), "<Control><Shift>o");
