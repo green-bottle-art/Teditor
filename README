@@ -1,0 +1,9 @@
+sudo apt install libgtk-4-dev libgtksourceview-5-dev 
+
+gtkd4-devel gtksourceview5-devel / dnf /zypper
+
+pacman -S gtk4 gtksourceview5
+
+
+Untuk compile projek
+g++ -Wall -Wextra main.cpp -o teditor  $(pkg-config --cflags --libs gtk4 gtksourceview-5)
